@@ -24,6 +24,7 @@ function convertToCelsius(string) {
 function changeTemp() {
   let buttonText = document.querySelector("#unit-button");
   let todayTemp = document.querySelector("#today-temp");
+  let todayTempFeels = document.querySelector("#feelsLike");
   let after1Temp = document.querySelector("#after1-temp");
   let after2Temp = document.querySelector("#after2-temp");
   let after3Temp = document.querySelector("#after3-temp");
@@ -32,6 +33,7 @@ function changeTemp() {
   let after6Temp = document.querySelector("#after6-temp");
   if (buttonText.innerHTML === "°C") {
     todayTemp.innerHTML = convertToFahrenheit(todayTemp.innerHTML);
+    todayTempFeels.innerHTML = convertToFahrenheit(todayTempFeels.innerHTML);
     after1Temp.innerHTML = convertToFahrenheit(after1Temp.innerHTML);
     after2Temp.innerHTML = convertToFahrenheit(after2Temp.innerHTML);
     after3Temp.innerHTML = convertToFahrenheit(after3Temp.innerHTML);
@@ -40,6 +42,7 @@ function changeTemp() {
     after6Temp.innerHTML = convertToFahrenheit(after6Temp.innerHTML);
   } else {
     todayTemp.innerHTML = convertToCelsius(todayTemp.innerHTML);
+    todayTempFeels.innerHTML = convertToCelsius(todayTempFeels.innerHTML);
     after1Temp.innerHTML = convertToCelsius(after1Temp.innerHTML);
     after2Temp.innerHTML = convertToCelsius(after2Temp.innerHTML);
     after3Temp.innerHTML = convertToCelsius(after3Temp.innerHTML);
@@ -58,6 +61,27 @@ let unitButton = document.querySelector("#unit-button");
 unitButton.addEventListener("click", changeMetric);
 
 //SEARCH INTERACTION 8/8; DISPLAY TEMPERATURE OF EACH WEEKDAY
+
+function displayWeekdayTemp(response) {
+  console.log(response.data);
+}
+
+function getWeekTemp(response) {
+  let longitude = response.data.coord.lon;
+  let latitude = response.data.coord.lat;
+  let count = 1;
+  let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+  let queryPara = `lat=${latitude}&lon=${longitude}&cnt=${count}&appid=${apiKey}&units=metric`;
+  let dailyApiUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?${queryPara}`;
+  axios.get(dailyApiUrl).then(displayWeekdayTemp);
+}
+
+function getWeekdayTemp(cityString) {
+  let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+  let queryPara = `q=${cityString}&appid=${apiKey}&units=metric`;
+  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?${queryPara}`;
+  axios.get(weatherApiUrl).then(getWeekTemp);
+}
 
 //SEARCH INTERACTION 7/8; DISPLAY WEEKDAYS
 
@@ -156,9 +180,55 @@ function displayWeekday() {
 
 //SEARCH INTERACTION 6/8; DISPLAY HUMIDITY OF TODAY
 
+function displayHumidity(response) {
+  let humidity = Math.round(response.data.main.humidity);
+  let humidityElement = document.querySelector("#humidity");
+  humidityElement.innerHTML = `${humidity}%`;
+}
+
+function getHumidity(cityString) {
+  let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+  let queryPara = `q=${cityString}&appid=${apiKey}&units=metric`;
+  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?${queryPara}`;
+  axios.get(weatherApiUrl).then(displayHumidity);
+}
+
 //SEARCH INTERACTION 5/8; DISPLAY WINDSPEED OF TODAY
 
-//SEARCH INTERACTION 4/8; DISPLAY PRECIPITATION OF TODAY
+function displayWind(response) {
+  let wind = Math.round(response.data.wind.speed);
+  let windElement = document.querySelector("#wind");
+  windElement.innerHTML = `${wind}m/s`;
+}
+
+function getWind(cityString) {
+  let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+  let queryPara = `q=${cityString}&appid=${apiKey}&units=metric`;
+  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?${queryPara}`;
+  axios.get(weatherApiUrl).then(displayWind);
+}
+
+//SEARCH INTERACTION 4/8; DISPLAY 'TEMPERATURE FEELS LIKE' OF TODAY
+
+function displayFeels(response) {
+  let todayTempFeels = Math.round(response.data.main.feels_like);
+  let buttonText = document.querySelector("#unit-button");
+  let feelsLikeElement = document.querySelector("#feelsLike");
+
+  if (buttonText.innerHTML === "°C") {
+    let tempF = convertToFahrenheit(`${todayTempFeels}`);
+    feelsLikeElement.innerHTML = `${tempF}`;
+  } else {
+    feelsLikeElement.innerHTML = `${todayTempFeels}°C`;
+  }
+}
+
+function getFeels(cityString) {
+  let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+  let queryPara = `q=${cityString}&appid=${apiKey}&units=metric`;
+  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?${queryPara}`;
+  axios.get(weatherApiUrl).then(displayFeels);
+}
 
 //SEARCH INTERACTION 3/8; DISPLAY TEMPERATURE OF TODAY
 
@@ -176,9 +246,8 @@ function displayTodayTemp(response) {
 }
 
 function getTodayTemp(cityString) {
-  let city = cityString;
   let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
-  let queryPara = `q=${city}&appid=${apiKey}&units=metric`;
+  let queryPara = `q=${cityString}&appid=${apiKey}&units=metric`;
   let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?${queryPara}`;
   axios.get(weatherApiUrl).then(displayTodayTemp);
 }
@@ -228,15 +297,19 @@ function displayCity(cityString) {
   cityText.innerHTML = cityString.trim().toUpperCase();
 }
 
-//USE AND DISPLAY CURRENT LOCATION AND TEMPERATURE AS DEFAULT
+//USE CURRENT LOCATION AS DEFAULT SEARCHINPUT
 
 function displayTempByLocation(response) {
   let city = response.data.name;
   displayDate();
   displayCity(city.trim().toLowerCase());
   getTodayTemp(city.trim().toLowerCase());
+  getFeels(city.trim().toLowerCase());
+  getWind(city.trim().toLowerCase());
+  getHumidity(city.trim().toLowerCase());
 
   displayWeekday();
+  getWeekdayTemp(city.trim().toLowerCase());
 }
 
 function getTempByLocation(position) {
@@ -261,8 +334,12 @@ function search(event) {
     displayDate();
     displayCity(searchInput.value.trim().toLowerCase());
     getTodayTemp(searchInput.value.trim().toLowerCase());
+    getFeels(searchInput.value.trim().toLowerCase());
+    getWind(searchInput.value.trim().toLowerCase());
+    getHumidity(searchInput.value.trim().toLowerCase());
 
     displayWeekday();
+    getWeekdayTemp(searchInput.value.trim().toLowerCase());
   }
 }
 
