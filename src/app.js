@@ -1,3 +1,5 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 //METRIC CHANGE C/F
 function displayButtonUnit() {
   let buttonText = document.querySelector("#unit-button");
@@ -53,11 +55,16 @@ function changeMetric(event) {
 let unitButton = document.querySelector("#unit-button");
 unitButton.addEventListener("click", changeMetric);
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //SEARCH INTERACTION 1/4; DISPLAY SEARCHED CITY
 function displayCity(cityString) {
   let cityText = document.querySelector("#city");
   cityText.innerHTML = cityString.trim().toUpperCase();
 }
+
+//--------------------------------------------------------------------------------------------------
 
 //SEARCH INTERACTION 2/4; DISPLAY DATE OF TODAY
 function formatDate() {
@@ -95,6 +102,8 @@ function displayDate() {
   let dateText = document.querySelector("#date");
   dateText.innerHTML = currentDate;
 }
+
+//--------------------------------------------------------------------------------------------------
 
 //SEARCH INTERACTION 3/4; DISPLAY WEEKDAY NAMES
 function getDay2() {
@@ -165,6 +174,8 @@ function displayWeekday() {
   day4Text.innerHTML = days[day + dayNumber[2]];
   day5Text.innerHTML = days[day + dayNumber[3]];
 }
+
+//--------------------------------------------------------------------------------------------------
 
 //SEARCH INTERACTION 4/4; DISPLAY WEATHER INFORMATION
 
@@ -360,6 +371,9 @@ function getCoord(cityString) {
   axios.get(weatherApiUrl).then(getWeather);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //USE CURRENT LOCATION AS DEFAULT SEARCHINPUT
 function displayTempByLocation(response) {
   let city = response.data.name;
@@ -386,6 +400,9 @@ function getDefaultWeather(position) {
 }
 
 navigator.geolocation.getCurrentPosition(getDefaultWeather);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //SEARCH-FUNCTION
 function search(event) {
