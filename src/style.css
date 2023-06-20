@@ -1,13 +1,13 @@
 body {
   font-family: "Ubuntu Mono", monospace;
   text-align: center;
-  color: #0a183f;
-  background: #e7eaf6;
+  color: #404040;
+  background: #f5f5f5;
 }
 
 .base {
-  background: #ccd3f1;
-  border: 0.2rem dotted #97a7ee;
+  background: #f5f5f5;
+  border: 0.2rem dotted #d5d5d5;
   border-radius: 1%;
   margin: 2% auto;
   margin-top: 5%;
@@ -29,16 +29,16 @@ body {
   height: 85%;
   position: relative;
   top: 0.1em;
-  border: 0.1em solid #38598b;
+  border: 0.1em solid #adadad;
   border-radius: 1.2em;
-  box-shadow: 0.04em 0.04em 0.3em #38598b;
-  background: radial-gradient(#3b5f94, #304d79);
-  color: #d8dfff;
+  box-shadow: 0.04em 0.04em 0.3em #adadad;
+  background: radial-gradient(#e3e3e3, #adadad);
+  color: #404040;
   font-weight: 900;
   font-size: 1.6em;
 }
 .topbar button:hover {
-  background: linear-gradient(#304d79, #3b5f94);
+  background: linear-gradient(#adadad, #e3e3e3);
   color: #ffffff;
 }
 .topbar form {
@@ -48,9 +48,9 @@ body {
   height: 70%;
 }
 .topbar form .searchField {
-  border: 0em solid #97a7ee;
+  border: 0em solid #ffffff;
   border-radius: 0.3em;
-  background-color: #e7eaf6;
+  background-color: #e9e9e9;
   width: 80%;
   height: 100%;
 }
@@ -59,14 +59,14 @@ body {
   width: 18%;
   height: 90%;
   position: relative;
-  bottom: 0.05em;
-  border: 0.1em solid #97a7ee;
+  bottom: 0.1em;
+  border: 0.1em solid #b7b7b7;
   border-radius: 0.4em;
-  box-shadow: 0.06em 0.06em 0.4em #97a7ee;
-  background: linear-gradient(#e7eaf6, #d9dce7);
+  box-shadow: 0.06em 0.06em 0.4em #ababab;
+  background: linear-gradient(#ffffff, #d3d3d3);
 }
 .topbar form .searchButton:hover {
-  background: linear-gradient(#d9dce7, #e7eaf6);
+  background: linear-gradient(#d3d3d3, #ffffff);
 }
 
 .weather-content {
@@ -76,7 +76,7 @@ body {
 }
 
 .today {
-  border: 0.2em dotted #97a7ee;
+  border: 0.2em dotted #d5d5d5;
   background: transparent;
   display: inline-block;
   width: 98%;
@@ -109,7 +109,7 @@ body {
   margin-top: 0.5%;
 }
 .today .img {
-  background-image: linear-gradient(#ccd3f150, #ccd3f150),
+  background-image: linear-gradient(#ffffff47, #ffffff47),
     url("../media/default-weather.png");
   background-repeat: no-repeat;
   background-color: transparent;
@@ -119,7 +119,7 @@ body {
   margin: 0 0 2% 2%;
   width: 68%;
   height: 94%;
-  border: 0.4em double #97a7ee;
+  border: 0.4em double #d5d5d5;
 }
 .today .img .temp {
   text-align: right;
@@ -139,7 +139,7 @@ body {
   width: 96%;
   height: 17.5%;
   border-radius: 0.4em;
-  background: #ffffffc4;
+  background: #e9e9e9;
   margin: 6% 0;
 }
 .today .more-info .data {
@@ -170,7 +170,7 @@ body {
   height: 100%;
 }
 .after .day .img {
-  background-image: linear-gradient(#ccd3f150, #ccd3f150),
+  background-image: linear-gradient(#ffffffad, #ffffffad),
     url("../media/default-weather.png");
   background-repeat: no-repeat;
   background-color: transparent;
@@ -180,7 +180,7 @@ body {
   width: 90%;
   height: 79%;
   display: inline-block;
-  border: 0.1em solid #97a7ee;
+  border: 0.1em solid #d5d5d5;
 }
 .after .day .img .temp {
   line-height: 3em;
@@ -193,4 +193,11 @@ body {
   width: 100%;
   display: inline-block;
   height: 20%;
+}
+
+a {
+  color: #404040;
+}
+a:hover {
+  color: #ababab;
 }
