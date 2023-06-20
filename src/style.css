@@ -7,7 +7,7 @@ body {
 
 .base {
   background: #f5f5f5;
-  border: 0.2rem dotted #d5d5d5;
+  border: 0.2rem solid #d5d5d5;
   border-radius: 1%;
   margin: 2% auto;
   margin-top: 5%;
@@ -50,9 +50,13 @@ body {
 .topbar form .searchField {
   border: 0em solid #ffffff;
   border-radius: 0.3em;
-  background-color: #e9e9e9;
+  background-color: #ffffff;
   width: 80%;
   height: 100%;
+}
+.topbar form .searchField:focus-visible {
+  outline: #adadad solid 0.02em;
+  background-color: #e9e9e9;
 }
 .topbar form .searchButton {
   display: inline-block;
@@ -76,7 +80,6 @@ body {
 }
 
 .today {
-  border: 0.2em dotted #d5d5d5;
   background: transparent;
   display: inline-block;
   width: 98%;
@@ -176,11 +179,10 @@ body {
   background-color: transparent;
   background-size: cover;
   background-position: center;
-  border-radius: 1.1em;
+  border-radius: 50%;
   width: 90%;
   height: 79%;
   display: inline-block;
-  border: 0.1em solid #d5d5d5;
 }
 .after .day .img .temp {
   line-height: 3em;
