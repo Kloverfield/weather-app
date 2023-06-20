@@ -180,7 +180,7 @@ body {
   width: 90%;
   height: 79%;
   display: inline-block;
-  border: 0.3em double #97a7ee;
+  border: 0.1em solid #97a7ee;
 }
 .after .day .img .temp {
   line-height: 3em;
