@@ -268,6 +268,13 @@ snow.src = "media/weather/snow.jpg";
 let thunder = new Image();
 thunder.src = "media/weather/thunderstorm.jpg";
 
+function displayImg(pack) {
+  let newImage = pack[0];
+  let element = pack[1];
+  console.log(newImage, element);
+  element.replaceWith(newImage);
+}
+
 function sendToFunction(image, element) {
   let weatherPack = [image, element];
   displayImg(weatherPack);
@@ -306,13 +313,6 @@ function getImg(weather, element) {
       }
     }
   }
-}
-
-function displayImg(pack) {
-  let newImage = pack[0];
-  let element = pack[1];
-  console.log(newImage, element);
-  element.replaceWith(newImage);
 }
 
 function displayDescriptive(weather) {
