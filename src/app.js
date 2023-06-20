@@ -282,7 +282,7 @@ function sortWeatherData(response) {
   let apiDate = bulk[0].dt_txt;
   let date = generateDate();
   let day1 = bulk[0];
-
+  console.log(bulk);
   if (apiDate === `${date} 00:00:00`) {
     // CHECK WHAT T0 DO WITH THIS. WHEN DOES THE DATE CHANGE FOR THE (API??? IF IT CHANGES BEFORE MIDNIGHT, WE HAVE A PROBLEM.
     let day2 = bulk[1];

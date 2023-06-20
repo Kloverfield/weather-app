@@ -72,29 +72,41 @@ body {
 .weather-content {
   margin: 0 auto;
   width: 100%;
-  height: 88.6%;
+  height: 89.6%;
 }
 
 .today {
   border: 0.2em dotted #97a7ee;
   background: transparent;
   display: inline-block;
-  width: 40%;
+  width: 98%;
   border-radius: 0.4em;
-  height: 98%;
+  height: 69%;
+  margin-bottom: 1%;
 }
 .today .city {
   margin: 0 auto;
   width: 100%;
   height: 17%;
-  overflow-wrap: break-word;
-  line-height: 80%;
+  line-height: 100%;
+  font-size: 3em;
+  padding-top: 1%;
 }
 .today .date {
   margin: 0 auto;
-  width: 100%;
+  width: 94%;
   height: 6%;
-  font-size: 1.5em;
+  font-size: 1.3em;
+  text-align: left;
+}
+.today .weather {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: stretch;
+  height: 76%;
+  margin-top: 0.5%;
 }
 .today .img {
   background-image: linear-gradient(#ccd3f150, #ccd3f150),
@@ -103,66 +115,74 @@ body {
   background-color: transparent;
   background-size: cover;
   background-position: center;
-  border-radius: 50%;
-  margin: 0 auto;
-  width: 96%;
-  height: 59%;
+  border-radius: 1.5em;
+  margin: 0 0 2% 2%;
+  width: 68%;
+  height: 94%;
+  border: 0.4em double #97a7ee;
 }
 .today .img .temp {
   text-align: right;
   position: relative;
-  right: 2;
-  position: relative;
-  top: 53%;
-  right: 28%;
-  font-size: 4.5em;
+  top: 20%;
+  right: 16%;
+  font-size: 5.5em;
   font-weight: 900;
 }
+.today .other-weather {
+  display: block;
+  height: 100%;
+  width: 29%;
+}
 .today .more-info {
-  display: inline-block;
-  width: 28%;
-  height: 18%;
-  margin-top: 4%;
+  display: block;
+  width: 96%;
+  height: 17.5%;
+  border-radius: 0.4em;
+  background: #ffffffc4;
+  margin: 6% 0;
 }
 .today .more-info .data {
-  border-radius: 0.2em;
-  background: #ffffffc4;
   font-size: 1.4em;
-  width: 100%;
-  height: 60%;
-  line-height: 2.4em;
+  width: 50%;
+  height: 100%;
+  line-height: 2.1em;
+  display: inline-block;
 }
 .today .more-info .data-text {
-  font-size: 0.8em;
-  line-height: 1.6em;
+  font-size: 0.9em;
+  line-height: 3.7em;
+  display: inline-block;
+  width: 40%;
+  height: 100%;
+  position: relative;
+  bottom: 6%;
 }
 
 .after {
   display: inline-block;
-  width: 56%;
-  height: 98%;
-  position: relative;
-  bottom: 12%;
+  width: 100%;
+  height: 30%;
 }
 .after .day {
   display: inline-block;
-  width: 48%;
-  height: 32%;
-  margin: 1% 0;
+  width: 24%;
+  height: 100%;
 }
-.after .img {
+.after .day .img {
   background-image: linear-gradient(#ccd3f150, #ccd3f150),
     url("../media/default-weather.png");
   background-repeat: no-repeat;
   background-color: transparent;
   background-size: cover;
   background-position: center;
-  border-radius: 8em;
-  width: 75%;
-  height: 100%;
+  border-radius: 1.1em;
+  width: 90%;
+  height: 79%;
   display: inline-block;
+  border: 0.3em double #97a7ee;
 }
-.after .img .temp {
+.after .day .img .temp {
   text-align: right;
   line-height: 520%;
   font-size: 1.8em;
@@ -171,15 +191,10 @@ body {
   right: 32%;
   font-weight: 900;
 }
-.after .weekday {
-  font-size: 1.6em;
+.after .day .weekday {
+  font-size: 1.2em;
   font-weight: 500;
-  writing-mode: vertical-lr;
-  text-orientation: sideways;
-  rotate: z -180deg;
-  width: 16%;
+  width: 100%;
   display: inline-block;
   height: 20%;
-  position: relative;
-  top: 30%;
 }
