@@ -111,33 +111,37 @@ body {
   height: 76%;
   margin-top: 0.5%;
 }
-.today .img {
-  background-image: linear-gradient(#ffffff47, #ffffff47),
-    url("../media/default-weather.png");
-  background-repeat: no-repeat;
+.today .weather .img {
   background-color: transparent;
-  background-size: cover;
-  background-position: center;
   border-radius: 1.5em;
   margin: 0 0 2% 2%;
   width: 68%;
   height: 94%;
   border: 0.4em double #d5d5d5;
 }
-.today .img .temp {
+.today .weather .img img {
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.2em;
+}
+.today .weather .img .temp {
   text-align: right;
   position: relative;
-  top: 20%;
+  bottom: 76%;
   right: 16%;
   font-size: 5.5em;
   font-weight: 900;
 }
-.today .other-weather {
+.today .weather .other-weather {
   display: block;
   height: 100%;
   width: 29%;
 }
-.today .more-info {
+.today .weather .other-weather .more-info {
   display: block;
   width: 96%;
   height: 17.5%;
@@ -145,14 +149,14 @@ body {
   background: #e9e9e9;
   margin: 6% 0;
 }
-.today .more-info .data {
+.today .weather .other-weather .more-info .data {
   font-size: 1.4em;
   width: 50%;
   height: 100%;
   line-height: 2.1em;
   display: inline-block;
 }
-.today .more-info .data-text {
+.today .weather .other-weather .more-info .data-text {
   font-size: 0.9em;
   line-height: 3.7em;
   display: inline-block;
@@ -173,21 +177,27 @@ body {
   height: 100%;
 }
 .after .day .img {
-  background-image: linear-gradient(#ffffffad, #ffffffad),
-    url("../media/default-weather.png");
-  background-repeat: no-repeat;
   background-color: transparent;
-  background-size: cover;
-  background-position: center;
   border-radius: 50%;
   width: 90%;
   height: 79%;
   display: inline-block;
 }
+.after .day .img img {
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
 .after .day .img .temp {
   line-height: 3em;
   font-size: 2.4em;
   font-weight: 900;
+  position: relative;
+  bottom: 95%;
 }
 .after .day .weekday {
   font-size: 1.2em;
@@ -195,6 +205,8 @@ body {
   width: 100%;
   display: inline-block;
   height: 20%;
+  position: relative;
+  bottom: 50%;
 }
 
 a {

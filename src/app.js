@@ -179,7 +179,7 @@ function displayWeekday() {
 
 //SEARCH INTERACTION 4/4; DISPLAY WEATHER INFORMATION
 
-//DISPLAY WEATHER INFORMATION 1/4; TEMPERATURE
+//DISPLAY WEATHER INFORMATION 1/5; TEMPERATURE
 function displayTemp(weather) {
   let day1Temp = Math.round(weather[0].main.temp);
   let day2Temp = Math.round(weather[1].main.temp);
@@ -215,21 +215,21 @@ function displayTemp(weather) {
   }
 }
 
-//DISPLAY WEATHER INFORMATION 2/4; HUMIDITY
+//DISPLAY WEATHER INFORMATION 2/5; HUMIDITY
 function displayHumidity(weather) {
   let humidity = Math.round(weather.main.humidity);
   let humidityElement = document.querySelector("#humidity");
   humidityElement.innerHTML = `${humidity}%`;
 }
 
-//DISPLAY WEATHER INFORMATION 3/4; WINDSPEED
+//DISPLAY WEATHER INFORMATION 3/5; WINDSPEED
 function displayWind(weather) {
   let wind = Math.round(weather.wind.speed);
   let windElement = document.querySelector("#wind");
   windElement.innerHTML = `${wind}m/s`;
 }
 
-//DISPLAY WEATHER INFORMATION 4/4; TEMPERATURE 'FEELS LIKE'
+//DISPLAY WEATHER INFORMATION 4/5; TEMPERATURE 'FEELS LIKE'
 function displayFeels(weather) {
   let todayTempFeels = Math.round(weather.main.feels_like);
   let buttonText = document.querySelector("#unit-button");
@@ -243,18 +243,110 @@ function displayFeels(weather) {
   }
 }
 
+//DISPLAY WEATHER INFORMATION 5/5; WEATHER DESCRIPTION
+let clearDay = new Image();
+clearDay.src = "media/weather/clear_day.jpg";
+
+let clearNight = new Image();
+clearNight.src = "media/weather/clear_night.jpg";
+
+let cloudsDay = new Image();
+cloudsDay.src = "media/weather/clouds_day.jpg";
+
+let cloudsNight = new Image();
+cloudsNight.src = "media/weather/clouds_night.jpg";
+
+let fog = new Image();
+fog.src = "media/weather/fog.jpg";
+
+let rain = new Image();
+rain.src = "media/weather/rain.jpg";
+
+let snow = new Image();
+snow.src = "media/weather/snow.jpg";
+
+let thunder = new Image();
+thunder.src = "media/weather/thunderstorm.jpg";
+
+function sendToFunction(image, element) {
+  let weatherPack = [image, element];
+  displayImg(weatherPack);
+}
+
+function getImg(weather, element) {
+  let main = weather.main.toUpperCase();
+  let id = weather.id;
+  let icon = weather.icon;
+  if (main === "CLEAR") {
+    if (icon === "01d") {
+      sendToFunction(clearDay, element);
+    } else {
+      sendToFunction(clearNight, element);
+    }
+  } else {
+    if (main === "CLOUDS") {
+      if (icon === "02d" || icon === "03d" || icon === "04d") {
+        sendToFunction(cloudsDay, element);
+      } else {
+        sendToFunction(cloudsNight, element);
+      }
+    } else {
+      if (main === "THUNDERSTORM") {
+        sendToFunction(thunder, element);
+      } else {
+        if (main === "RAIN" && id !== 511) {
+          sendToFunction(rain, element);
+        } else {
+          if (main === "SNOW" || id === 511) {
+            sendToFunction(snow, element);
+          } else {
+            sendToFunction(fog, element);
+          }
+        }
+      }
+    }
+  }
+}
+
+function displayImg(pack) {
+  let newImage = pack[0];
+  let element = pack[1];
+  console.log(newImage, element);
+  element.replaceWith(newImage);
+}
+
+function displayDescriptive(weather) {
+  let imgDay1Element = document.querySelector("img");
+  getImg(weather[0].weather[0], imgDay1Element);
+
+  let imgDay2Element = document.querySelector("img#imgDay2");
+  getImg(weather[1].weather[0], imgDay2Element);
+
+  let imgDay3Element = document.querySelector("img#imgDay3");
+  getImg(weather[2].weather[0], imgDay3Element);
+
+  let imgDay4Element = document.querySelector("img#imgDay4");
+  getImg(weather[3].weather[0], imgDay4Element);
+
+  let imgDay5Element = document.querySelector("img#imgDay5");
+  getImg(weather[4].weather[0], imgDay5Element);
+}
+
 function displayWeather(weather) {
-  // display weather information 1/4; temperature
+  // display weather information 1/5; temperature
   displayTemp(weather);
 
-  // display weather information 2/4; 'feels like'-temperature
+  // display weather information 2/5; 'feels like'-temperature
   displayFeels(weather[0]);
 
-  // display weather information 3/4; windspeed
+  // display weather information 3/5; windspeed
   displayWind(weather[0]);
 
-  // display weather information 4/4; humidity
+  // display weather information 4/5; humidity
   displayHumidity(weather[0]);
+
+  // display weather information 5/5; weather description
+  displayDescriptive(weather);
 }
 
 function generateDate() {
@@ -282,7 +374,6 @@ function sortWeatherData(response) {
   let apiDate = bulk[0].dt_txt;
   let date = generateDate();
   let day1 = bulk[0];
-  console.log(bulk);
   if (apiDate === `${date} 00:00:00`) {
     // CHECK WHAT T0 DO WITH THIS. WHEN DOES THE DATE CHANGE FOR THE (API??? IF IT CHANGES BEFORE MIDNIGHT, WE HAVE A PROBLEM.
     let day2 = bulk[1];
