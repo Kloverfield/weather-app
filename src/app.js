@@ -179,13 +179,13 @@ function displayWeekday() {
 
 //SEARCH INTERACTION 4/4; DISPLAY WEATHER INFORMATION
 
-//DISPLAY WEATHER INFORMATION 1/5; TEMPERATURE
-function displayTemp(weather) {
-  let day1Temp = Math.round(weather[0].main.temp);
-  let day2Temp = Math.round(weather[1].main.temp);
-  let day3Temp = Math.round(weather[2].main.temp);
-  let day4Temp = Math.round(weather[3].main.temp);
-  let day5Temp = Math.round(weather[4].main.temp);
+//DISPLAY WEATHER INFORMATION 1/6; TEMPERATURE
+function displayTemp(weatherArray) {
+  let day1Temp = Math.round(weatherArray[0].main.temp);
+  let day2Temp = Math.round(weatherArray[1].main.temp);
+  let day3Temp = Math.round(weatherArray[2].main.temp);
+  let day4Temp = Math.round(weatherArray[3].main.temp);
+  let day5Temp = Math.round(weatherArray[4].main.temp);
 
   let day1Element = document.querySelector("#today-temp");
   let day2Element = document.querySelector("#day2-temp");
@@ -215,21 +215,21 @@ function displayTemp(weather) {
   }
 }
 
-//DISPLAY WEATHER INFORMATION 2/5; HUMIDITY
+//DISPLAY WEATHER INFORMATION 2/6; HUMIDITY
 function displayHumidity(weather) {
   let humidity = Math.round(weather.main.humidity);
   let humidityElement = document.querySelector("#humidity");
   humidityElement.innerHTML = `${humidity}%`;
 }
 
-//DISPLAY WEATHER INFORMATION 3/5; WINDSPEED
+//DISPLAY WEATHER INFORMATION 3/6; WINDSPEED
 function displayWind(weather) {
   let wind = Math.round(weather.wind.speed);
   let windElement = document.querySelector("#wind");
   windElement.innerHTML = `${wind}m/s`;
 }
 
-//DISPLAY WEATHER INFORMATION 4/5; TEMPERATURE 'FEELS LIKE'
+//DISPLAY WEATHER INFORMATION 4/6; TEMPERATURE 'FEELS LIKE'
 function displayFeels(weather) {
   let todayTempFeels = Math.round(weather.main.feels_like);
   let buttonText = document.querySelector("#unit-button");
@@ -243,71 +243,59 @@ function displayFeels(weather) {
   }
 }
 
-//DISPLAY WEATHER INFORMATION 5/5; WEATHER DESCRIPTION
-let clearDay = new Image();
-clearDay.src = "media/weather/clear_day.jpg";
-
-let clearNight = new Image();
-clearNight.src = "media/weather/clear_night.jpg";
-
-let cloudsDay = new Image();
-cloudsDay.src = "media/weather/clouds_day.jpg";
-
-let cloudsNight = new Image();
-cloudsNight.src = "media/weather/clouds_night.jpg";
-
-let fog = new Image();
-fog.src = "media/weather/fog.jpg";
-
-let rain = new Image();
-rain.src = "media/weather/rain.jpg";
-
-let snow = new Image();
-snow.src = "media/weather/snow.jpg";
-
-let thunder = new Image();
-thunder.src = "media/weather/thunderstorm.jpg";
-
-function displayImg(pack) {
-  let newImage = pack[0];
-  let element = pack[1];
-  console.log(newImage, element);
-  element.replaceWith(newImage);
+// DISPLAY WEATHER INFORMATION 5/6; PRECIPITATION
+function displayPrecipitation(weather) {
+  let pop = weather.pop;
+  let prec = pop * 100;
+  let precElement = document.querySelector("#precipitation");
+  precElement.innerHTML = `${prec}%`;
 }
 
-function sendToFunction(image, element) {
-  let weatherPack = [image, element];
-  displayImg(weatherPack);
-}
+//DISPLAY WEATHER INFORMATION 6/6; WEATHER DESCRIPTION
+let clearDay = "media/weather/clear_day.jpg";
 
-function getImg(weather, element) {
-  let main = weather.main.toUpperCase();
-  let id = weather.id;
-  let icon = weather.icon;
+let clearNight = "media/weather/clear_night.jpg";
+
+let cloudsDay = "media/weather/clouds_day.jpg";
+
+let cloudsNight = "media/weather/clouds_night.jpg";
+
+let fog = "media/weather/fog.jpg";
+
+let rain = "media/weather/rain.jpg";
+
+let snow = "media/weather/snow.jpg";
+
+let thunder = "media/weather/thunderstorm.jpg";
+
+function getImg(weather) {
+  let main = weather.weather[0].main.toUpperCase();
+  let id = weather.weather[0].id;
+  let icon = weather.weather[0].icon;
   if (main === "CLEAR") {
     if (icon === "01d") {
-      sendToFunction(clearDay, element);
+      return clearDay;
     } else {
-      sendToFunction(clearNight, element);
+      return clearNight;
     }
   } else {
     if (main === "CLOUDS") {
       if (icon === "02d" || icon === "03d" || icon === "04d") {
-        sendToFunction(cloudsDay, element);
+        return cloudsDay;
       } else {
-        sendToFunction(cloudsNight, element);
+        return cloudsNight;
       }
     } else {
       if (main === "THUNDERSTORM") {
-        sendToFunction(thunder, element);
+        return thunder;
       } else {
         if (main === "RAIN" && id !== 511) {
-          sendToFunction(rain, element);
+          return rain;
         } else {
           if (main === "SNOW" || id === 511) {
-            sendToFunction(snow, element);
+            return snow;
           } else {
-            sendToFunction(fog, element);
+            return fog;
           }
         }
       }
@@ -315,38 +303,68 @@ function getImg(weather, element) {
   }
 }
 
-function displayDescriptive(weather) {
-  let imgDay1Element = document.querySelector("img");
-  getImg(weather[0].weather[0], imgDay1Element);
+function displayDescriptiveImgDay1(weather) {
+  let newImg = getImg(weather);
+  let element = document.querySelector("img");
+  element.src = newImg;
+}
 
-  let imgDay2Element = document.querySelector("img#imgDay2");
-  getImg(weather[1].weather[0], imgDay2Element);
+function displayDescriptiveImgDay2(weather) {
+  let newImg = getImg(weather);
+  let element = document.querySelector("#imgDay2");
+  element.src = newImg;
+}
 
-  let imgDay3Element = document.querySelector("img#imgDay3");
-  getImg(weather[2].weather[0], imgDay3Element);
+function displayDescriptiveImgDay3(weather) {
+  let newImg = getImg(weather);
+  let element = document.querySelector("#imgDay3");
+  element.src = newImg;
+}
 
-  let imgDay4Element = document.querySelector("img#imgDay4");
-  getImg(weather[3].weather[0], imgDay4Element);
+function displayDescriptiveImgDay4(weather) {
+  let newImg = getImg(weather);
+  let element = document.querySelector("#imgDay4");
+  element.src = newImg;
+}
 
-  let imgDay5Element = document.querySelector("img#imgDay5");
-  getImg(weather[4].weather[0], imgDay5Element);
+function displayDescriptiveImgDay5(weather) {
+  let newImg = getImg(weather);
+  let element = document.querySelector("#imgDay5");
+  element.src = newImg;
+}
+
+function displayDescriptiveText(desc) {
+  let element = document.querySelector("#descriptive");
+  element.innerHTML = `${desc}`;
+}
+
+function displayDescriptives(weatherArray) {
+  displayDescriptiveText(weatherArray[0].weather[0].description.toUpperCase());
+  displayDescriptiveImgDay1(weatherArray[0]);
+  displayDescriptiveImgDay2(weatherArray[1]);
+  displayDescriptiveImgDay3(weatherArray[2]);
+  displayDescriptiveImgDay4(weatherArray[3]);
+  displayDescriptiveImgDay5(weatherArray[4]);
 }
 
 function displayWeather(weather) {
-  // display weather information 1/5; temperature
+  // display weather information 1/6; temperature
   displayTemp(weather);
 
-  // display weather information 2/5; 'feels like'-temperature
+  // display weather information 2/6; 'feels like'-temperature
   displayFeels(weather[0]);
 
-  // display weather information 3/5; windspeed
+  // display weather information 3/6; windspeed
   displayWind(weather[0]);
 
-  // display weather information 4/5; humidity
+  // display weather information 4/6; humidity
   displayHumidity(weather[0]);
 
-  // display weather information 5/5; weather description
-  displayDescriptive(weather);
+  //display weather information 5/6; precipitation
+  displayPrecipitation(weather[0]);
+
+  // display weather information 6/6; weather description
+  displayDescriptives(weather);
 }
 
 function generateDate() {
@@ -465,6 +483,44 @@ function getCoord(cityString) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function searchInteraction() {
+  let searchInput = document.querySelector("#search-input");
+  let city = searchInput.value.trim().toLowerCase();
+
+  searchInput.value = "";
+
+  // search interaction 1/4: display searched city
+  displayCity(city);
+
+  // search interaction 2/4: display date of today
+  displayDate();
+
+  // search interaction 3/4: display weekday names
+  displayWeekday();
+
+  // search interaction 4/4: display weather information
+  getCoord(city);
+}
+
+//SEARCH-FUNCTION
+function search(event) {
+  event.preventDefault();
+  let searchInput = document.querySelector("#search-input");
+  let city = searchInput.value.trim().toLowerCase();
+
+  if (city === "") {
+    alert("Please type the name of a city 🙂");
+  } else {
+    let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+    let queryPara = `q=${city}&appid=${apiKey}&units=metric`;
+    let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?${queryPara}`;
+    axios.get(weatherApiUrl).then(searchInteraction);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //USE CURRENT LOCATION AS DEFAULT SEARCHINPUT
 function displayTempByLocation(response) {
   let city = response.data.name;
@@ -491,31 +547,6 @@ function getDefaultWeather(position) {
 }
 
 navigator.geolocation.getCurrentPosition(getDefaultWeather);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//SEARCH-FUNCTION
-function search(event) {
-  event.preventDefault();
-  let searchInput = document.querySelector("#search-input");
-  let city = searchInput.value;
-  if (city === "") {
-    alert("Please type the name of a city 🙂");
-  } else {
-    // search interaction 1/4: display searched city
-    displayCity(city.trim().toLowerCase());
-
-    // search interaction 2/4: display date of today
-    displayDate();
-
-    // search interaction 3/4: display weekday names
-    displayWeekday();
-
-    // search interaction 4/4: display weather information
-    getCoord(city.trim().toLowerCase());
-  }
-}
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);

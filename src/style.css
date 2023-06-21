@@ -128,13 +128,24 @@ body {
   height: 100%;
   border-radius: 1.2em;
 }
-.today .weather .img .temp {
-  text-align: right;
+.today .weather .img .temperature {
+  text-align: center;
   position: relative;
-  bottom: 76%;
-  right: 16%;
+  bottom: 85%;
+  left: 35%;
+  width: 63%;
+  height: 75%;
+  background: radial-gradient(#f5f5f594 27%, #f5f5f505 71%);
+}
+.today .weather .img .temperature .temp {
   font-size: 5.5em;
   font-weight: 900;
+  height: 56%;
+  position: relative;
+  top: 6%;
+}
+.today .weather .img .temperature .descriptiveText {
+  font-size: 1.6em;
 }
 .today .weather .other-weather {
   display: block;
@@ -149,14 +160,14 @@ body {
   background: #e9e9e9;
   margin: 6% 0;
 }
-.today .weather .other-weather .more-info .data {
+.today .weather .other-weather .more-info .data-text {
   font-size: 1.4em;
   width: 50%;
   height: 100%;
   line-height: 2.1em;
   display: inline-block;
 }
-.today .weather .other-weather .more-info .data-text {
+.today .weather .other-weather .more-info .data {
   font-size: 0.9em;
   line-height: 3.7em;
   display: inline-block;
@@ -198,6 +209,7 @@ body {
   font-weight: 900;
   position: relative;
   bottom: 95%;
+  background: radial-gradient(#f5f5f554 27%, #f5f5f500 71%);
 }
 .after .day .weekday {
   font-size: 1.2em;
