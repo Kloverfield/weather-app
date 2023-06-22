@@ -134,8 +134,9 @@ body {
   bottom: 85%;
   left: 35%;
   width: 63%;
-  height: 75%;
+  height: 70%;
   background: radial-gradient(#f5f5f594 27%, #f5f5f505 71%);
+  color: #0f0f0f;
 }
 .today .weather .img .temperature .temp {
   font-size: 5.5em;
@@ -205,8 +206,9 @@ body {
   font-size: 2.4em;
   font-weight: 900;
   position: relative;
-  bottom: 110%;
+  bottom: 115%;
   background: radial-gradient(#f5f5f554 27%, #f5f5f500 71%);
+  color: #0f0f0f;
 }
 .after .day .weekday {
   font-size: 1.2em;
@@ -215,7 +217,7 @@ body {
   display: inline-block;
   height: 20%;
   position: relative;
-  bottom: 59%;
+  bottom: 62%;
 }
 
 a {
