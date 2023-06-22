@@ -59,15 +59,121 @@ unitButton.addEventListener("click", changeMetric);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //SEARCH INTERACTION 1/4; DISPLAY SEARCHED CITY
-function displayCity(cityString) {
+function displayCity(response) {
+  let cityString = response.data.city.name.toUpperCase();
+  let country = response.data.city.country;
   let cityText = document.querySelector("#city");
-  cityText.innerHTML = cityString.trim().toUpperCase();
+  cityText.innerHTML = `${cityString}, ${country}`;
+}
+
+function getCityData(response) {
+  let longitude = response.data.coord.lon;
+  let latitude = response.data.coord.lat;
+  let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+  let queryPara = `lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+  let forecastApiUrl = `https://api.openweathermap.org/data/2.5/forecast?${queryPara}`;
+  axios.get(forecastApiUrl).then(displayCity);
+}
+function getCityCoord(cityString) {
+  let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+  let queryPara = `q=${cityString}&appid=${apiKey}&units=metric`;
+  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?${queryPara}`;
+  axios.get(weatherApiUrl).then(getCityData);
 }
 
 //--------------------------------------------------------------------------------------------------
 
 //SEARCH INTERACTION 2/4; DISPLAY DATE OF TODAY
-function formatDate() {
+function displayDate(formatedDate) {
+  let dateText = document.querySelector("#date");
+  dateText.innerHTML = formatedDate;
+}
+
+function formatDate(response) {
+  let currentDate = new Date();
+  let days = [
+    "SUNDAY",
+    "MONDAY",
+    "TUESDAY",
+    "WEDNESDAY",
+    "THURSDAY",
+    "FRIDAY",
+    "SATURDAY",
+  ];
+
+  let weekday = days[currentDate.getDay()];
+  let hour = currentDate.getHours();
+  let localUtc = currentDate.getTimezoneOffset() / -60;
+  let searchUtc = response.data.timezone / 3600;
+  let utc = searchUtc - localUtc;
+  let minutes = currentDate.getMinutes();
+  if (hour <= 9 && minutes <= 9) {
+    if (utc === 0) {
+      let formatedDate = `${weekday} 0${hour}:0${minutes}`;
+      displayDate(formatedDate);
+    } else {
+      if (utc < 0) {
+        let formatedDate = `${weekday} 0${hour}:0${minutes} (${utc}h)`;
+        displayDate(formatedDate);
+      } else {
+        let formatedDate = `${weekday} 0${hour}:0${minutes} (+${utc}h)`;
+        displayDate(formatedDate);
+      }
+    }
+  } else {
+    if (hour <= 9) {
+      if (utc === 0) {
+        let formatedDate = `${weekday} 0${hour}:${minutes}`;
+        displayDate(formatedDate);
+      } else {
+        if (utc < 0) {
+          let formatedDate = `${weekday} 0${hour}:${minutes} (${utc}h)`;
+          displayDate(formatedDate);
+        } else {
+          let formatedDate = `${weekday} 0${hour}:${minutes} (+${utc}h)`;
+          displayDate(formatedDate);
+        }
+      }
+    } else {
+      if (minutes <= 9) {
+        if (utc === 0) {
+          let formatedDate = `${weekday} ${hour}:0${minutes}`;
+          displayDate(formatedDate);
+        } else {
+          if (utc < 0) {
+            let formatedDate = `${weekday} ${hour}:0${minutes} (${utc}h)`;
+            displayDate(formatedDate);
+          } else {
+            let formatedDate = `${weekday} ${hour}:0${minutes} (+${utc}h)`;
+            displayDate(formatedDate);
+          }
+        }
+      } else {
+        if (utc === 0) {
+          let formatedDate = `${weekday} ${hour}:${minutes}`;
+          displayDate(formatedDate);
+        } else {
+          if (utc < 0) {
+            let formatedDate = `${weekday} ${hour}:${minutes} (${utc}h)`;
+            displayDate(formatedDate);
+          } else {
+            let formatedDate = `${weekday} ${hour}:${minutes} (+${utc}h)`;
+            displayDate(formatedDate);
+          }
+        }
+      }
+    }
+  }
+}
+
+function getDate(cityString) {
+  let apiKey = "6bd7c4bfa85bb276dc93ab103505c1de";
+  let queryPara = `q=${cityString}&appid=${apiKey}&units=metric`;
+  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?${queryPara}`;
+  axios.get(weatherApiUrl).then(formatDate);
+}
+
+function formatDefaultDate() {
   let currentDate = new Date();
   let days = [
     "SUNDAY",
@@ -97,8 +203,8 @@ function formatDate() {
   }
 }
 
-function displayDate() {
-  let currentDate = formatDate();
+function displayDefaultDate() {
+  let currentDate = formatDefaultDate();
   let dateText = document.querySelector("#date");
   dateText.innerHTML = currentDate;
 }
@@ -246,26 +352,20 @@ function displayFeels(weather) {
 // DISPLAY WEATHER INFORMATION 5/6; PRECIPITATION
 function displayPrecipitation(weather) {
   let pop = weather.pop;
-  let prec = pop * 100;
+  let prec = Math.round(pop * 100);
   let precElement = document.querySelector("#precipitation");
   precElement.innerHTML = `${prec}%`;
 }
 
 //DISPLAY WEATHER INFORMATION 6/6; WEATHER DESCRIPTION
 let clearDay = "media/weather/clear_day.jpg";
-
 let clearNight = "media/weather/clear_night.jpg";
-
 let cloudsDay = "media/weather/clouds_day.jpg";
-
 let cloudsNight = "media/weather/clouds_night.jpg";
-
 let fog = "media/weather/fog.jpg";
-
-let rain = "media/weather/rain.jpg";
-
+let rainDay = "media/weather/rain_day.jpg";
+let rainNight = "media/weather/rain_night.jpg";
 let snow = "media/weather/snow.jpg";
-
 let thunder = "media/weather/thunderstorm.jpg";
 
 function getImg(weather) {
@@ -290,7 +390,11 @@ function getImg(weather) {
         return thunder;
       } else {
         if (main === "RAIN" && id !== 511) {
-          return rain;
+          if (icon === "09d" || icon === "10d") {
+            return rainDay;
+          } else {
+            return rainNight;
+          }
         } else {
           if (main === "SNOW" || id === 511) {
             return snow;
@@ -413,7 +517,7 @@ function sortWeatherData(response) {
         let day2 = bulk[10];
         let day3 = bulk[18];
         let day4 = bulk[26];
-        let day5 = bulk[31];
+        let day5 = bulk[34];
         let days = [day1, day2, day3, day4, day5];
         displayWeather(days);
       } else {
@@ -421,7 +525,7 @@ function sortWeatherData(response) {
           let day2 = bulk[9];
           let day3 = bulk[17];
           let day4 = bulk[25];
-          let day5 = bulk[30];
+          let day5 = bulk[33];
           let days = [day1, day2, day3, day4, day5];
           displayWeather(days);
         } else {
@@ -490,10 +594,10 @@ function searchInteraction() {
   searchInput.value = "";
 
   // search interaction 1/4: display searched city
-  displayCity(city);
+  getCityCoord(city);
 
   // search interaction 2/4: display date of today
-  displayDate();
+  getDate(city);
 
   // search interaction 3/4: display weekday names
   displayWeekday();
@@ -507,7 +611,6 @@ function search(event) {
   event.preventDefault();
   let searchInput = document.querySelector("#search-input");
   let city = searchInput.value.trim().toLowerCase();
-
   if (city === "") {
     alert("Please type the name of a city 🙂");
   } else {
@@ -523,18 +626,18 @@ function search(event) {
 
 //USE CURRENT LOCATION AS DEFAULT SEARCHINPUT
 function displayTempByLocation(response) {
-  let city = response.data.name;
+  let city = response.data.name.trim().toLowerCase();
   // search interaction 1/4: display searched city
-  displayCity(city.trim().toLowerCase());
+  getCityCoord(city);
 
   // search interaction 2/4: display date of today
-  displayDate();
+  displayDefaultDate();
 
   // search interaction 3/4: display weekday names
   displayWeekday();
 
   // search interaction 4/4: display weather information
-  getCoord(city.trim().toLowerCase());
+  getCoord(city);
 }
 
 function getDefaultWeather(position) {
