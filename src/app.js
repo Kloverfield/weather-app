@@ -2,11 +2,11 @@ let clearDay = "media/weather/clear_day.jpg";
 let clearNight = "media/weather/clear_night.jpg";
 let cloudsDay = "media/weather/clouds_day.jpg";
 let cloudsNight = "media/weather/clouds_night.jpg";
-let fog = "media/weather/fog.jpg";
+let thunder = "media/weather/thunderstorm.jpg";
 let rainDay = "media/weather/rain_day.jpg";
 let rainNight = "media/weather/rain_night.jpg";
 let snow = "media/weather/snow.jpg";
-let thunder = "media/weather/thunderstorm.jpg";
+let fog = "media/weather/fog.jpg";
 
 let date = new Date();
 let days = [
