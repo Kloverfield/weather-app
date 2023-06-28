@@ -1,3 +1,4 @@
+//unviersal variables
 let clearDay = "media/weather/clear_day.jpg";
 let clearNight = "media/weather/clear_night.jpg";
 let cloudsDay = "media/weather/clouds_day.jpg";
@@ -18,6 +19,12 @@ let days = [
   "FRIDAY",
   "SATURDAY",
 ];
+
+let day1eventElement = document.querySelector("#day1click");
+let day2eventElement = document.querySelector("#day2click");
+let day3eventElement = document.querySelector("#day3click");
+let day4eventElement = document.querySelector("#day4click");
+let day5eventElement = document.querySelector("#day5click");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -260,9 +267,77 @@ function getDay5Number(day) {
   }
 }
 
+function weatherInfo(weather) {
+  //display precipitation
+  let precipitation = Math.round(weather.pop * 100);
+  let precipitationElement = document.querySelector("#precipitation");
+  precipitationElement.innerHTML = `${precipitation}%`;
+
+  //display humidity
+  let humidity = Math.round(weather.main.humidity);
+  let humidityElement = document.querySelector("#humidity");
+  humidityElement.innerHTML = `${humidity}%`;
+
+  //display windspeed
+  let windspeed = Math.round(weather.wind.speed);
+  let windElement = document.querySelector("#wind");
+  windElement.innerHTML = `${windspeed}m/s`;
+
+  //display 'feels like'-temperature
+  let feelsLike = Math.round(weather.main.feels_like);
+  let feelsLikeElement = document.querySelector("#feelsLike");
+
+  if (unitButton.innerHTML === "°C") {
+    let tempF = convertToFahrenheit(`${feelsLike}`);
+    feelsLikeElement.innerHTML = `${tempF}`;
+  } else {
+    feelsLikeElement.innerHTML = `${feelsLike}°C`;
+  }
+}
+
+function styleChangeOnEvent(day) {
+  day1eventElement.style.opacity = "0.6";
+  day2eventElement.style.opacity = "0.6";
+  day3eventElement.style.opacity = "0.6";
+  day4eventElement.style.opacity = "0.6";
+  day5eventElement.style.opacity = "0.6";
+
+  day1eventElement.style.border = "0.5em double #00000033";
+  day2eventElement.style.border = "0.5em double #00000033";
+  day3eventElement.style.border = "0.5em double #00000033";
+  day4eventElement.style.border = "0.5em double #00000033";
+  day5eventElement.style.border = "0.5em double #00000033";
+
+  if (day === 1) {
+    day1eventElement.style.opacity = "1";
+    day1eventElement.style.border = "0.5em double #000000";
+  } else {
+    if (day === 2) {
+      day2eventElement.style.opacity = "1";
+      day2eventElement.style.border = "0.5em double #000000";
+    } else {
+      if (day === 3) {
+        day3eventElement.style.opacity = "1";
+        day3eventElement.style.border = "0.5em double #000000";
+      } else {
+        if (day === 4) {
+          day4eventElement.style.opacity = "1";
+          day4eventElement.style.border = "0.5em double #000000";
+        } else {
+          day5eventElement.style.opacity = "1";
+          day5eventElement.style.border = "0.5em double #000000";
+        }
+      }
+    }
+  }
+}
+
 function useWeatherData(response) {
   console.log(response.data);
   let forecast = sortWeatherData(response.data.list);
+
+  //display precipitation, humidity, windspeed and 'feels like'-temperature
+  weatherInfo(forecast[0]);
 
   //display city name
   let cityString = response.data.city.name.toUpperCase();
@@ -321,32 +396,6 @@ function useWeatherData(response) {
         }
       }
     }
-  }
-
-  //display precipitation
-  let precipitation = Math.round(forecast[0].pop * 100);
-  let precipitationElement = document.querySelector("#precipitation");
-  precipitationElement.innerHTML = `${precipitation}%`;
-
-  //display humidity
-  let humidity = Math.round(forecast[0].main.humidity);
-  let humidityElement = document.querySelector("#humidity");
-  humidityElement.innerHTML = `${humidity}%`;
-
-  //display windspeed
-  let windspeed = Math.round(forecast[0].wind.speed);
-  let windElement = document.querySelector("#wind");
-  windElement.innerHTML = `${windspeed}m/s`;
-
-  //display 'feels like'-temperature
-  let feelsLike = Math.round(forecast[0].main.feels_like);
-  let feelsLikeElement = document.querySelector("#feelsLike");
-
-  if (unitButton.innerHTML === "°C") {
-    let tempF = convertToFahrenheit(`${feelsLike}`);
-    feelsLikeElement.innerHTML = `${tempF}`;
-  } else {
-    feelsLikeElement.innerHTML = `${feelsLike}°C`;
   }
 
   //display weather-images
@@ -421,6 +470,43 @@ function useWeatherData(response) {
     day4TempElement.innerHTML = `${day4Temp}°C`;
     day5TempElement.innerHTML = `${day5Temp}°C`;
   }
+
+  //event: change info for today and forecast
+  function day1Event() {
+    styleChangeOnEvent(1);
+    weatherInfo(forecast[0]);
+  }
+  function day2Event() {
+    styleChangeOnEvent(2);
+    weatherInfo(forecast[1]);
+  }
+  function day3Event() {
+    styleChangeOnEvent(3);
+    weatherInfo(forecast[2]);
+  }
+  function day4Event() {
+    styleChangeOnEvent(4);
+    weatherInfo(forecast[3]);
+  }
+  function day5Event() {
+    styleChangeOnEvent(5);
+    weatherInfo(forecast[4]);
+  }
+
+  day1eventElement.style.cursor = "pointer";
+  day1eventElement.addEventListener("click", day1Event);
+
+  day2eventElement.style.cursor = "pointer";
+  day2eventElement.addEventListener("click", day2Event);
+
+  day3eventElement.style.cursor = "pointer";
+  day3eventElement.addEventListener("click", day3Event);
+
+  day4eventElement.style.cursor = "pointer";
+  day4eventElement.addEventListener("click", day4Event);
+
+  day5eventElement.style.cursor = "pointer";
+  day5eventElement.addEventListener("click", day5Event);
 }
 
 function getWeather(longitude, latitude) {
