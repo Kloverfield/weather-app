@@ -333,10 +333,10 @@ function styleChangeOnEvent(day) {
 }
 
 function useWeatherData(response) {
-  console.log(response.data);
   let forecast = sortWeatherData(response.data.list);
 
   //display precipitation, humidity, windspeed and 'feels like'-temperature
+  styleChangeOnEvent(1);
   weatherInfo(forecast[0]);
 
   //display city name
