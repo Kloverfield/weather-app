@@ -128,11 +128,10 @@ function sortWeatherData(bulk) {
   let date = generateDate();
   let day1 = bulk[0];
   if (apiDate === `${date} 00:00:00`) {
-    // CHECK WHAT T0 DO WITH THIS. WHEN DOES THE DATE CHANGE FOR THE (API??? IF IT CHANGES BEFORE MIDNIGHT, WE HAVE A PROBLEM.
-    let day2 = bulk[1];
-    let day3 = bulk[1];
-    let day4 = bulk[1];
-    let day5 = bulk[1];
+    let day2 = bulk[12];
+    let day3 = bulk[20];
+    let day4 = bulk[28];
+    let day5 = bulk[36];
     let days = [day1, day2, day3, day4, day5];
     return days;
   } else {
